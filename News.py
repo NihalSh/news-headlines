@@ -27,24 +27,14 @@ class Interface:
         master.title('News Headlines')
         master.resizable(False, False)
         master.configure(background = '#4DD0E1')
-        #master.configure(background = '#607D8B')
 
         self.style = ttk.Style()
-        """
-        self.style.configure('TFrame', background = '#78909C')
-        self.style.configure('Header.TFrame', background = '#607D8B')
-        self.style.configure('Button.TFrame', background = '#607D8B')
-        self.style.configure('TButton', background = '#90A4AE')
-        self.style.configure('TLabel', foreground = '#000000', background = '#78909C', font = ('Arial', 11))
-        self.style.configure('Headline.TLabel', foreground = '#000000', background = '#78909C', font = ('Arial', 11, 'bold'))
-        self.style.configure('Header.TLabel', foreground = '#000000', background = '#78909C', font = ('Arial', 18, 'bold'))
-        """
         self.style.configure('TFrame', background = '#E0F7FA')
         self.style.configure('Header.TFrame', background = '#000000')
         self.style.configure('Logo.Header.TFrame')
         self.style.configure('Button.TFrame', background = '#4DD0E1')
         self.style.configure('TButton', foreground = '#FFFFFF', background = '#000000', font = ('Arial', 11, 'bold'))
-        self.style.map('TButton', foreground = [('hover', '#FFFFFF'), ('pressed', '#FFFFFF')], background = [('hover', '#000000'), ('pressed', '#000000')])
+        self.style.map('TButton', foreground = [('pressed', '#FFFFFF')], background = [('disabled', 'grey'), ('pressed', '#000000')])
         self.style.configure('TLabel', foreground = '#000000', background = '#E0F7FA', font = ('Arial', 11))
         self.style.configure('Title.TLabel', foreground = '#FFFFFF', background = '#000000', font = ('Arial', 22, 'bold'))
         self.style.configure('Subtitle.TLabel', foreground = '#FFFFFF', background = '#000000', font = ('Arial', 11, 'bold'))
@@ -54,14 +44,9 @@ class Interface:
         self.frame_header = ttk.Frame(master, padding='0.1i', style = 'Header.TFrame')
         self.frame_header.pack(fill="both", expand=True)
 
-        #self.logo = PhotoImage(file = 'logo.gif')
-        #ttk.Label(self.frame_header, style = 'Logo.Header.TFrame', image = self.logo).grid(row = 0, column = 0, rowspan = 2)
-        ttk.Label(self.frame_header, text = 'News Headlines', style = 'Title.TLabel').pack()#grid(row = 0, column = 1)
+        ttk.Label(self.frame_header, text = 'News Headlines', style = 'Title.TLabel').pack()
         ttk.Label(self.frame_header, wraplength = 300, style = "Subtitle.TLabel",
-                  text = "A quick way a catch up on the latest news!").pack()#grid(row = 1, column = 1)
-
-        #self.canvas = Canvas(master, bg = '#e1d8b9')
-        #self.canvas.pack(side = RIGHT, fill = BOTH, expand = True)
+                  text = "A quick way a catch up on the latest news!").pack()
 
         #News Item 1 -> Begin
         self.frame_contentHolder = ttk.Frame(master)
@@ -188,28 +173,21 @@ class Interface:
         self.frames[index].configure(relief=RAISED)
 
     def callback_newsItem(self, event = None, index = 0, next = True):
-        #if next == False:
-        #    index - 6
-
         for i in xrange(index, index + 5):
             frameNumber = abs(i - index)
-            #print frameNumber
-            #self.currentindex[i - index - 1] = i
+
             if i < len(self.newsList) and i >= 0:
-                self.titles[frameNumber].configure(text=self.newsList[i].headline);#change
-                self.description[frameNumber].configure(text=self.newsList[i].description);#change
+                self.titles[frameNumber].configure(text=self.newsList[i].headline)
+                self.description[frameNumber].configure(text=self.newsList[i].description)
                 self.currentindex[frameNumber] = i
         index = index + 5
-        #print index
+
         if index < 10:
-            #disable prev
             self.previous.state(['disabled'])
         else:
             self.previous.state(['!disabled'])
-            #enable prev
 
         if index > len(self.newsList):
-            #disable next
             self.next.state(['disabled'])
         else:
             self.next.state(['!disabled'])
@@ -226,14 +204,6 @@ class Interface:
             self.newsList.append(News(headline, desc, url))
 
         self.callback_newsItem()
-"""
-        self.label_title1.configure(text=self.newsList[0].headline);#change
-        self.label_shortDescription1.configure(text=self.newsList[0].description);#change
-        self.label_title2.configure(text=self.newsList[1].headline);#change
-        self.label_shortDescription2.configure(text=self.newsList[1].description);#change
-        self.label_title3.configure(text=self.newsList[2].headline);#change
-        self.label_shortDescription3.configure(text=self.newsList[2].descrition);#change
-"""
 
 class FeedParser:
     def __init__(self, url):
